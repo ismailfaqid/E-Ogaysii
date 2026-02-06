@@ -1,0 +1,236 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at center, #ffffff 0%, #f7f9fa 100%);
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem 0.5rem 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  color: #000000;
+}
+
+.header {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logoIcon {
+  width: 28px;
+  height: 28px;
+  color: #30D158;
+  /* Greener shade from image */
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.02em;
+}
+
+.globeIcon {
+  width: 24px;
+  height: 24px;
+  color: #000000;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  gap: 3rem;
+  margin-top: -2rem;
+  /* Pull up slightly for visual balance */
+}
+
+/* Icon Stack */
+.iconStack {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.mainIconBox {
+  width: 110px;
+  height: 110px;
+  background: #22C55E;
+  border-radius: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 15px 35px rgba(34, 197, 94, 0.25);
+  color: white;
+  z-index: 1;
+}
+
+.subIconBox {
+  position: absolute;
+  bottom: 0px;
+  right: -5px;
+  width: 75px;
+  height: 75px;
+  background: white;
+  border-radius: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  /* Lighter shadow for the white bubble */
+  color: #22C55E;
+  z-index: 2;
+}
+
+/* Typography */
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mainHeading {
+  font-size: 2.5rem;
+  line-height: 1.05;
+  font-weight: 900;
+  color: #000000;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.somaliTagline {
+  font-size: 1.45rem;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #30D158;
+  margin: 0;
+}
+
+.helperText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.businessOnly {
+  font-size: 0.77rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #8E8E93;
+  /* iOS grey */
+  text-transform: uppercase;
+}
+
+.description {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #636366;
+  margin: 0;
+}
+
+/* Actions */
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.btnLogin {
+  width: 100%;
+  padding: 1.15rem;
+  background: #30D158;
+  /* Vibrant vibrant green */
+  color: white;
+  border-radius: 1rem;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(48, 209, 88, 0.2);
+  transition: opacity 0.2s;
+}
+
+.btnRegister {
+  width: 100%;
+  padding: 1.15rem;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #D1FAE5;
+  /* Soft light green border like image */
+  border-radius: 1rem;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnRegister:hover {
+  background: #F8FAFB;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  padding-bottom: 0.5rem;
+}
+
+.footerLinks {
+  font-size: 0.88rem;
+  color: #8E8E93;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 500;
+}
+
+.dotSeparator {
+  width: 4px;
+  height: 4px;
+  background: #D1D5DB;
+  border-radius: 50%;
+}
+
+.homeIndicator {
+  width: 134px;
+  height: 5px;
+  background: #E5E5EA;
+  /* iOS separator color */
+  border-radius: 100px;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-top: 2rem;
+  }
+
+  .content {
+    max-width: 450px;
+    gap: 4rem;
+  }
+
+  .mainHeading {
+    font-size: 3.2rem;
+  }
+}

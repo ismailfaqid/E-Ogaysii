@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  password  String
+  role      String      @default("BUSINESS")
+  name      String?
+  image     String?
+  status    String      @default("Active")
+  clients   Client[]
+  products  Product[]
+  broadcasts Broadcast[]
+}
+
+model Client {
+  id              Int         @id @default(autoincrement())
+  client_name     String
+  whatsapp_number String
+  business_email  String
+  business        User        @relation(fields: [business_email], references: [email], onDelete: Cascade)
+  products        Product[]   @relation("ProductClients")
+  broadcasts      Broadcast[] @relation("BroadcastClients")
+}
+
+model Product {
+  id               Int         @id @default(autoincrement())
+  product_name     String
+  price            Decimal
+  description      String
+  image            String?
+  status           String      @default("Draft")
+  createdAt        DateTime    @default(now())
+  business_email   String
+  business         User        @relation(fields: [business_email], references: [email], onDelete: Cascade)
+  selected_clients Client[]    @relation("ProductClients")
+  broadcastRecords Broadcast[]
+}
+
+model Broadcast {
+  id            Int      @id @default(autoincrement())
+  sentAt        DateTime @default(now())
+  product       Product  @relation(fields: [productId], references: [id])
+  productId     Int
+  business      User     @relation(fields: [businessEmail], references: [email])
+  businessEmail String
+  clients       Client[] @relation("BroadcastClients")
+}
