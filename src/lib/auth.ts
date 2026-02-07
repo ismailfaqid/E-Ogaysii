@@ -3,11 +3,16 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import { prisma } from "@/lib/prisma"
 import { compare } from "bcryptjs"
 
+if (process.env.NODE_ENV === 'production' && !process.env.NEXTAUTH_SECRET) {
+    console.warn("WARNING: NEXTAUTH_SECRET is missing in production environment!")
+}
+
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
+    secret: process.env.NEXTAUTH_SECRET,
     cookies: {
         sessionToken: {
             name: `next-auth.session-token.wp`, // Added version suffix to bypass old stuck cookies
