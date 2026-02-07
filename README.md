@@ -45,3 +45,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Initial admin credentials:
 - **Email**: `admin@whatsping.com`
 - **Password**: `adminpassword`
+
+
