@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
+import styles from '../page.module.css'
+
 export default function LoginPage() {
     const router = useRouter()
     const [error, setError] = useState('')
@@ -35,52 +37,69 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="section container-sm" style={{ maxWidth: '400px', margin: '4rem auto' }}>
-            <h1 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>E-Ogaysii</h1>
-            <p style={{ textAlign: 'center', marginBottom: '2rem', color: '#64748b' }}>
-                Ku Ogaysii Macaamiishaada WhatsApp
-            </p>
+        <div className={styles.container}>
+            <header className={styles.header}>
+                <div className={styles.logoIcon}>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <path d="M14 14h3v3h-3v-3zm4 0h3v3h-3v-3zm4 0h3v3h-3v-3zm-4 4h3v3h-3v-3zm4 0h3v3h-3v-3zm-4-4h3v3h-3v-3z" />
+                    </svg>
+                </div>
+                <div className={styles.title}>E-Ogaysii</div>
+                <div style={{ width: '24px' }}></div> {/* Spacer */}
+            </header>
 
-            <div className="glass-panel" style={{ padding: '2rem', borderRadius: 'var(--radius-lg)' }}>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            required
-                            className="form-input"
-                            style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid #cbd5e1' }}
-                        />
-                    </div>
+            <main className={styles.content} style={{ gap: '2rem', justifyContent: 'flex-start', marginTop: '2rem' }}>
+                <div className={styles.textGroup}>
+                    <h2 className={styles.mainHeading} style={{ fontSize: '2rem' }}>Welcome Back</h2>
+                    <p className={styles.somaliTagline} style={{ fontSize: '1.1rem' }}>Soo dhawaw mar kale</p>
+                </div>
 
-                    <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            required
-                            className="form-input"
-                            style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid #cbd5e1' }}
-                        />
-                    </div>
+                <div className="glass-panel" style={{ padding: '2rem', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '400px' }}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem' }}>Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                required
+                                style={{ width: '100%', padding: '0.85rem', borderRadius: 'var(--radius-md)', border: '1px solid #e2e8f0', background: '#f8fafc' }}
+                            />
+                        </div>
 
-                    {error && <p style={{ color: 'red', fontSize: '0.875rem' }}>{error}</p>}
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem' }}>Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                required
+                                style={{ width: '100%', padding: '0.85rem', borderRadius: 'var(--radius-md)', border: '1px solid #e2e8f0', background: '#f8fafc' }}
+                            />
+                        </div>
 
-                    <button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={loading}
-                        style={{ marginTop: '1rem' }}
-                    >
-                        {loading ? 'Logging in...' : 'Login'}
-                    </button>
-                </form>
+                        {error && <p style={{ color: '#ef4444', fontSize: '0.875rem', fontWeight: '500' }}>{error}</p>}
 
-                <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem' }}>
-                    Don&apos;t have an account? <Link href="/register" style={{ color: 'var(--color-primary)' }}>Register here</Link>
-                </p>
-            </div>
+                        <button
+                            type="submit"
+                            className={styles.btnLogin}
+                            disabled={loading}
+                            style={{ marginTop: '1rem' }}
+                        >
+                            {loading ? 'Logging in...' : 'Login'}
+                        </button>
+                    </form>
+
+                    <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: '#64748b' }}>
+                        Don&apos;t have an account? <Link href="/register" style={{ color: 'var(--color-primary)', fontWeight: '600' }}>Register here</Link>
+                    </p>
+                </div>
+            </main>
+
+            <footer className={styles.footer}>
+                <div className={styles.homeIndicator}></div>
+            </footer>
         </div>
     )
 }

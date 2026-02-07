@@ -9,8 +9,8 @@ const Navigation = () => {
     const pathname = usePathname();
     const { data: session } = useSession();
 
-    // Hide global navigation on landing and admin pages
-    if (pathname === '/' || pathname.startsWith('/admin')) return null;
+    // Hide global navigation on landing, login, register and admin pages
+    if (pathname === '/' || pathname === '/login' || pathname === '/register' || pathname.startsWith('/admin')) return null;
 
     const isActive = (path: string) => pathname === path;
 
