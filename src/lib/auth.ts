@@ -35,32 +35,41 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
+                console.log("Auth attempt for:", credentials?.email)
                 if (!credentials?.email || !credentials?.password) {
                     return null
                 }
 
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials.email
+                try {
+                    const user = await prisma.user.findUnique({
+                        where: {
+                            email: credentials.email
+                        }
+                    })
+
+                    console.log("User find result:", user ? "Found" : "Not Found")
+
+                    if (!user) {
+                        return null
                     }
-                })
 
-                if (!user) {
-                    return null
-                }
+                    const isPasswordValid = await compare(credentials.password, user.password)
+                    console.log("Password valid:", isPasswordValid)
 
-                const isPasswordValid = await compare(credentials.password, user.password)
+                    if (!isPasswordValid) {
+                        return null
+                    }
 
-                if (!isPasswordValid) {
-                    return null
-                }
-
-                return {
-                    id: user.id.toString(),
-                    email: user.email,
-                    role: user.role,
-                    name: user.name,
-                    image: user.image
+                    return {
+                        id: user.id.toString(),
+                        email: user.email,
+                        role: user.role,
+                        name: user.name,
+                        image: user.image
+                    }
+                } catch (e) {
+                    console.error("Auth Authorize Error:", e)
+                    throw e // Re-throw to show in server logs
                 }
             }
         })

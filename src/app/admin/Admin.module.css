@@ -1,13 +1,10 @@
-:root {
+.adminContainer {
+    background-color: var(--bg-gray);
+    min-height: 100vh;
     --sidebar-width: 260px;
     --primary-green: #22C55E;
     --bg-gray: #F9FAFB;
     --border-color: #F3F4F6;
-}
-
-.adminContainer {
-    background-color: var(--bg-gray);
-    min-height: 100vh;
 }
 
 /* Sidebar - Desktop Only */
