@@ -2,9 +2,6 @@
 
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
 
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
@@ -26,7 +23,7 @@ export async function getProducts() {
             id: 'desc'
         },
         include: {
-            selected_clients: true // Include for Client selection count or sending
+            selected_clients: true
         }
     })
 }
@@ -38,7 +35,6 @@ export async function getProduct(id: number) {
 
     if (!email) return null
 
-    // Admins can see any product, Businesses only their own
     const where: any = { id }
     if (role !== 'ADMIN') {
         where.business_email = email
@@ -66,20 +62,13 @@ export async function createProduct(prevState: any, formData: FormData) {
     if (imageFile && imageFile.size > 0) {
         try {
             const buffer = Buffer.from(await imageFile.arrayBuffer())
-            const filename = Date.now() + '_' + imageFile.name.replaceAll(" ", "_")
-            const uploadDir = path.join(process.cwd(), 'public/uploads')
-
-            // Ensure directory exists
-            await mkdir(uploadDir, { recursive: true })
-
-            await writeFile(path.join(uploadDir, filename), buffer)
-            imageUrl = `/uploads/${filename}`
+            const base64Image = buffer.toString('base64')
+            const contentType = imageFile.type || 'image/jpeg'
+            imageUrl = `data:${contentType};base64,${base64Image}`
         } catch (e) {
-            console.error("Upload failed", e)
-            // Continue without image or return error? Continue for now.
+            console.error("Base64 conversion failed", e)
         }
     } else {
-        // Fallback to URL input if provided (legacy)
         imageUrl = formData.get('image') as string
     }
 
@@ -88,7 +77,7 @@ export async function createProduct(prevState: any, formData: FormData) {
             data: {
                 product_name: name,
                 price: parseFloat(price) || 0,
-                description: description,
+                description: description || "",
                 image: imageUrl,
                 status: "Draft",
                 business_email: email
@@ -103,8 +92,6 @@ export async function createProduct(prevState: any, formData: FormData) {
 
 export async function updateProductClients(productId: number, clientIds: number[]) {
     try {
-        // We need to disconnect all first or manage differences
-        // Simplest is 'set' if relation is m-n
         await prisma.product.update({
             where: { id: productId },
             data: {
@@ -130,7 +117,6 @@ export async function broadcastProduct(productId: number) {
 
         if (!product) return { success: false, message: "Product not found" }
 
-        // 1. Create the Broadcast record (History)
         await prisma.broadcast.create({
             data: {
                 productId: productId,
@@ -141,13 +127,11 @@ export async function broadcastProduct(productId: number) {
             }
         })
 
-        // 2. Update status to Sent immediately (No Admin Approval needed)
         await prisma.product.update({
             where: { id: productId },
             data: { status: "Sent" }
         })
 
-        // Trigger WhatsApp sending logic here (Async)
         revalidatePath(`/products/${productId}`)
         revalidatePath(`/products`)
         return { success: true }
