@@ -84,13 +84,54 @@ export default async function Home() {
         </div>
       </main>
 
+      {/* About Section */}
+      <section className={styles.aboutSection}>
+        <h2 className={styles.aboutTitle}>About the Company</h2>
+        <div className={styles.aboutContent}>
+          <p>
+            <strong className={styles.legalName}>Deegaan Energy Solutions</strong> is a legally registered company providing electrical installation, solar energy systems, maintenance services, and supply of electrical and renewable energy equipment.
+          </p>
+          <p>
+            The company also delivers digital services including marketing solutions, WhatsApp customer notification systems, and web and software development for small and medium businesses.
+          </p>
+          <p>
+            E-Ogaysii is a product operated and managed by <strong className={styles.legalName}>Deegaan Energy Solutions</strong>.
+          </p>
+
+          <div className={styles.contactBlock}>
+            <h3 className={styles.contactTitle}>Contact Information</h3>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>Business:</span>
+              <span className={styles.legalName}>Deegaan Energy Solutions</span>
+            </div>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>Email:</span>
+              <span>info@e-ogaysii.com</span>
+            </div>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>Phone:</span>
+              <span>+252615704916</span>
+            </div>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>Address:</span>
+              <span>Kismayo, Somalia</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className={styles.footer}>
         <div className={styles.footerLinks}>
+          <Link href="/about" style={{ textDecoration: 'none', color: 'inherit' }}>About</Link>
+          <div className={styles.dotSeparator}></div>
           <span>Privacy Policy</span>
           <div className={styles.dotSeparator}></div>
           <span>Terms of Service</span>
         </div>
+        <p className={styles.footerNote}>
+          © 2026 Deegaan Energy Solutions. All rights reserved.
+        </p>
         <div className={styles.homeIndicator}></div>
       </footer>
     </div>

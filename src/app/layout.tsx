@@ -29,7 +29,16 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
           <Navigation />
-          <main className="container animate-fade-in">{children}</main>
+          <main className="container animate-fade-in" style={{ minHeight: '80vh' }}>{children}</main>
+          <footer style={{
+            padding: '2rem 1rem',
+            textAlign: 'center',
+            borderTop: '1px solid #E5E7EB',
+            color: '#6B7280',
+            fontSize: '0.875rem'
+          }}>
+            © 2026 Deegaan Energy Solutions. All rights reserved.
+          </footer>
         </Providers>
       </body>
     </html>
