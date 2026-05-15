@@ -177,6 +177,13 @@ export async function broadcastProduct(productId: number) {
             }
         })
 
+        // Fetch business name for the template
+        const businessUser = await prisma.user.findUnique({
+            where: { email: product.business_email },
+            select: { name: true }
+        });
+        const businessName = businessUser?.name || "E-Ogaysii Shop";
+
         // 2. Queue broadcasts sequentially
         for (const client of product.selected_clients) {
             try {
@@ -194,7 +201,7 @@ export async function broadcastProduct(productId: number) {
                         client.whatsapp_number,
                         templateName,
                         product.image,
-                        [product.product_name, product.price.toString()]
+                        [businessName, product.product_name, product.price.toString()]
                     );
                 } else {
                     // Send text-only template message
@@ -205,6 +212,7 @@ export async function broadcastProduct(productId: number) {
                             {
                                 type: 'body',
                                 parameters: [
+                                    { type: 'text', text: businessName },
                                     { type: 'text', text: product.product_name },
                                     { type: 'text', text: product.price.toString() }
                                 ]
