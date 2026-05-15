@@ -35,6 +35,11 @@ export async function getGlobalBroadcasts() {
                 select: {
                     clients: true
                 }
+            },
+            recipients: {
+                select: {
+                    status: true
+                }
             }
         }
     })

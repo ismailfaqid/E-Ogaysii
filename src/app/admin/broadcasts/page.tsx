@@ -77,11 +77,19 @@ export default async function AdminBroadcastsPage() {
                                     </td>
                                     <td>
                                         <div style={{ fontWeight: 600 }}>{b._count.clients} Clients</div>
+                                        <div style={{ fontSize: '0.75rem', color: '#6B7280' }}>
+                                            {b.recipients.filter((r: any) => r.status === 'delivered' || r.status === 'read').length} Deliv. • {b.recipients.filter((r: any) => r.status === 'read').length} Read
+                                        </div>
                                     </td>
                                     <td>
-                                        <span className={`${styles.badge} ${styles.approved}`}>
-                                            Delivered
+                                        <span className={`${styles.badge} ${b.status === 'completed' ? styles.approved : styles.pending}`}>
+                                            {b.status}
                                         </span>
+                                        {b.recipients.some((r: any) => r.status === 'failed') && (
+                                            <div style={{ color: '#EF4444', fontSize: '0.7rem', marginTop: '0.25rem' }}>
+                                                {b.recipients.filter((r: any) => r.status === 'failed').length} Failed
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

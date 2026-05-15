@@ -42,7 +42,23 @@ export async function createClient(prevState: any, formData: FormData) {
         return { message: 'Name and Phone are required' }
     }
 
+    if (!validateWhatsAppNumber(phone)) {
+        return { message: 'Invalid WhatsApp number format (10-15 digits required)' }
+    }
+
     try {
+        // Check for duplicate number for this business
+        const existing = await prisma.client.findFirst({
+            where: {
+                whatsapp_number: phone,
+                business_email: email
+            }
+        })
+
+        if (existing) {
+            return { message: 'A client with this number already exists' }
+        }
+
         await prisma.client.create({
             data: {
                 client_name: name,
@@ -50,6 +66,16 @@ export async function createClient(prevState: any, formData: FormData) {
                 business_email: email
             }
         })
+
+        // Audit log
+        await prisma.auditLog.create({
+            data: {
+                action: 'CREATE_CLIENT',
+                userEmail: email,
+                details: `Created client: ${name} (${phone})`
+            }
+        })
+
         revalidatePath('/clients')
         return { message: 'Client created', success: true }
     } catch (e) {

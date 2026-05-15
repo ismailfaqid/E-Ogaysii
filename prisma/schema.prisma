@@ -10,26 +10,29 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique
-  password   String
-  role       String      @default("BUSINESS")
-  name       String?
-  image      String?
-  status     String      @default("Active")
-  clients    Client[]
-  products   Product[]
-  broadcasts Broadcast[]
+  id               Int               @id @default(autoincrement())
+  email            String            @unique
+  password         String
+  role             String            @default("BUSINESS")
+  name             String?
+  image            String?
+  status           String            @default("Active")
+  clients          Client[]
+  products         Product[]
+  broadcasts       Broadcast[]
+  whatsAppSettings WhatsAppSettings?
+  whatsAppTemplates WhatsAppTemplate[]
 }
 
 model Client {
-  id              Int         @id @default(autoincrement())
-  client_name     String
-  whatsapp_number String
-  business_email  String
-  business        User        @relation(fields: [business_email], references: [email], onDelete: Cascade)
-  products        Product[]   @relation("ProductClients")
-  broadcasts      Broadcast[] @relation("BroadcastClients")
+  id                  Int                  @id @default(autoincrement())
+  client_name         String
+  whatsapp_number     String
+  business_email      String
+  business            User                 @relation(fields: [business_email], references: [email], onDelete: Cascade)
+  products            Product[]            @relation("ProductClients")
+  broadcasts          Broadcast[]          @relation("BroadcastClients")
+  broadcastRecipients BroadcastRecipient[]
 }
 
 model Product {
@@ -47,11 +50,66 @@ model Product {
 }
 
 model Broadcast {
-  id            Int      @id @default(autoincrement())
-  sentAt        DateTime @default(now())
-  product       Product  @relation(fields: [productId], references: [id])
+  id            Int                  @id @default(autoincrement())
+  sentAt        DateTime             @default(now())
+  product       Product              @relation(fields: [productId], references: [id])
   productId     Int
-  business      User     @relation(fields: [businessEmail], references: [email])
+  business      User                 @relation(fields: [businessEmail], references: [email])
   businessEmail String
-  clients       Client[] @relation("BroadcastClients")
+  clients       Client[]             @relation("BroadcastClients")
+  status        String               @default("pending") // pending, queued, completed, failed
+  recipients    BroadcastRecipient[]
+}
+
+model BroadcastRecipient {
+  id                  Int       @id @default(autoincrement())
+  broadcastId         Int
+  broadcast           Broadcast @relation(fields: [broadcastId], references: [id])
+  clientId            Int
+  client              Client    @relation(fields: [clientId], references: [id])
+  whatsapp_message_id String?   @unique
+  status              String    @default("pending") // pending, sent, delivered, read, failed
+  errorMessage        String?
+  retryCount          Int       @default(0)
+  updatedAt           DateTime  @updatedAt
+}
+
+model WhatsAppSettings {
+  id                       Int      @id @default(autoincrement())
+  business_email           String   @unique
+  business                 User     @relation(fields: [business_email], references: [email], onDelete: Cascade)
+  meta_app_id              String?
+  meta_app_secret          String?
+  whatsapp_phone_number_id String?
+  whatsapp_business_id     String?
+  whatsapp_access_token    String?
+  whatsapp_verify_token    String?
+  updatedAt                DateTime @updatedAt
+}
+
+model WhatsAppTemplate {
+  id             Int      @id @default(autoincrement())
+  business_email String
+  business       User     @relation(fields: [business_email], references: [email], onDelete: Cascade)
+  name           String
+  language       String   @default("en_US")
+  category       String   @default("MARKETING")
+  components     Json?
+  status         String   @default("APPROVED")
+  createdAt      DateTime @default(now())
+}
+
+model WebhookLog {
+  id         Int      @id @default(autoincrement())
+  eventType  String
+  payload    Json
+  receivedAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  action    String
+  userEmail String
+  details   String?
+  createdAt DateTime @default(now())
 }

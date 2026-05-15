@@ -68,6 +68,17 @@ export default function SettingsPage() {
         <div className="section container-sm">
             <h1 style={{ marginBottom: '2rem' }}>Settings</h1>
 
+            {/* WhatsApp API Configuration */}
+            <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem', borderRadius: 'var(--radius-lg)', borderLeft: '4px solid var(--color-primary)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                        <h2 style={{ margin: 0 }}>WhatsApp Business API</h2>
+                        <p className="text-muted" style={{ marginTop: '0.5rem' }}>Configure Meta credentials and webhook settings for broadcasts.</p>
+                    </div>
+                    <a href="/settings/whatsapp" className="btn btn-primary">Configure API</a>
+                </div>
+            </div>
+
             {/* Account Info */}
             <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem', borderRadius: 'var(--radius-lg)' }}>
                 <h2>Business Profile</h2>

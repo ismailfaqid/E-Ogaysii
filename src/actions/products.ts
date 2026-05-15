@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { whatsappService } from '@/lib/whatsapp'
 
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
@@ -83,6 +84,16 @@ export async function createProduct(prevState: any, formData: FormData) {
                 business_email: email
             }
         })
+
+        // Audit log
+        await prisma.auditLog.create({
+            data: {
+                action: 'CREATE_PRODUCT',
+                userEmail: email,
+                details: `Created product: ${name}`
+            }
+        })
+
         return { success: true, productId: product.id }
     } catch (e) {
         console.error(e)
@@ -91,6 +102,9 @@ export async function createProduct(prevState: any, formData: FormData) {
 }
 
 export async function updateProductClients(productId: number, clientIds: number[]) {
+    const email = await getUserEmail()
+    if (!email) return { success: false }
+
     try {
         await prisma.product.update({
             where: { id: productId },
@@ -100,6 +114,16 @@ export async function updateProductClients(productId: number, clientIds: number[
                 }
             }
         })
+
+        // Audit log
+        await prisma.auditLog.create({
+            data: {
+                action: 'UPDATE_PRODUCT_CLIENTS',
+                userEmail: email,
+                details: `Updated client list for product ID: ${productId}`
+            }
+        })
+
         revalidatePath(`/products/${productId}`)
         return { success: true }
     } catch (e) {
@@ -116,15 +140,82 @@ export async function broadcastProduct(productId: number) {
         })
 
         if (!product) return { success: false, message: "Product not found" }
+        if (product.selected_clients.length === 0) return { success: false, message: "No clients selected" }
 
-        await prisma.broadcast.create({
+        // 1. Create the broadcast record with 'queued' status
+        const broadcast = await prisma.broadcast.create({
             data: {
                 productId: productId,
                 businessEmail: product.business_email,
+                status: "queued",
                 clients: {
                     connect: product.selected_clients.map(c => ({ id: c.id }))
                 }
             }
+        })
+
+        // 2. Queue broadcasts sequentially
+        for (const client of product.selected_clients) {
+            try {
+                // Approved Meta message template: product_notification
+                const templateName = "product_notification"; 
+                
+                let response;
+                if (product.image && product.image.startsWith('http')) {
+                    // Send image-based template message
+                    response = await whatsappService.sendImageTemplateMessage(
+                        client.whatsapp_number,
+                        templateName,
+                        product.image,
+                        [product.product_name, product.price.toString()]
+                    );
+                } else {
+                    // Send text-only template message
+                    response = await whatsappService.sendTemplateMessage(
+                        client.whatsapp_number,
+                        templateName,
+                        [
+                            {
+                                type: 'body',
+                                parameters: [
+                                    { type: 'text', text: product.product_name },
+                                    { type: 'text', text: product.price.toString() }
+                                ]
+                            }
+                        ]
+                    );
+                }
+
+                const messageId = response.messages[0].id;
+
+                // 3. Save delivery status to BroadcastRecipient table
+                await prisma.broadcastRecipient.create({
+                    data: {
+                        broadcastId: broadcast.id,
+                        clientId: client.id,
+                        whatsapp_message_id: messageId,
+                        status: "sent"
+                    }
+                });
+
+            } catch (error: any) {
+                console.error(`[Broadcast] Failed to send to ${client.whatsapp_number}:`, error.message);
+                
+                await prisma.broadcastRecipient.create({
+                    data: {
+                        broadcastId: broadcast.id,
+                        clientId: client.id,
+                        status: "failed",
+                        errorMessage: error.message
+                    }
+                });
+            }
+        }
+
+        // 4. Update overall broadcast status
+        await prisma.broadcast.update({
+            where: { id: broadcast.id },
+            data: { status: "completed" }
         })
 
         await prisma.product.update({
@@ -136,7 +227,7 @@ export async function broadcastProduct(productId: number) {
         revalidatePath(`/products`)
         return { success: true }
     } catch (e) {
-        console.error(e)
-        return { success: false }
+        console.error("[Broadcast] Critical failure:", e)
+        return { success: false, message: "Broadcast failed" }
     }
 }

@@ -56,6 +56,29 @@ export default async function AdminDashboard({
                 </div>
             </div>
 
+            {/* WhatsApp Management Quick Actions */}
+            <div style={{ marginBottom: '2.5rem' }}>
+                <h2 className={styles.sectionTitle}>WhatsApp Management</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+                    <Link href="/settings/whatsapp" className={styles.statCard} style={{ textDecoration: 'none', borderLeft: '4px solid #3B82F6', transition: 'transform 0.2s' }}>
+                        <span style={{ fontWeight: 700, color: '#1E293B' }}>⚙️ API Settings</span>
+                        <span className={styles.statLabel}>Configure Meta Credentials</span>
+                    </Link>
+                    <Link href="/admin/templates" className={styles.statCard} style={{ textDecoration: 'none', borderLeft: '4px solid #10B981', transition: 'transform 0.2s' }}>
+                        <span style={{ fontWeight: 700, color: '#1E293B' }}>📝 Template Manager</span>
+                        <span className={styles.statLabel}>Manage WhatsApp Templates</span>
+                    </Link>
+                    <Link href="/admin/analytics" className={styles.statCard} style={{ textDecoration: 'none', borderLeft: '4px solid #F59E0B', transition: 'transform 0.2s' }}>
+                        <span style={{ fontWeight: 700, color: '#1E293B' }}>📊 Broadcast Analytics</span>
+                        <span className={styles.statLabel}>Track Delivery & Reads</span>
+                    </Link>
+                    <Link href="/admin/webhooks" className={styles.statCard} style={{ textDecoration: 'none', borderLeft: '4px solid #8B5CF6', transition: 'transform 0.2s' }}>
+                        <span style={{ fontWeight: 700, color: '#1E293B' }}>🔗 Webhook Monitor</span>
+                        <span className={styles.statLabel}>Health & Event Logs</span>
+                    </Link>
+                </div>
+            </div>
+
             {/* Search */}
             <AdminSearch />
 
