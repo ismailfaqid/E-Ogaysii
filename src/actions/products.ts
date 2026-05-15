@@ -193,6 +193,7 @@ export async function broadcastProduct(productId: number) {
                 });
 
                 const templateName = registeredTemplate?.name || "hello_world"; 
+                const languageCode = registeredTemplate?.language || "en_US";
                 
                 let response;
                 if (product.image && product.image.startsWith('http')) {
@@ -201,7 +202,8 @@ export async function broadcastProduct(productId: number) {
                         client.whatsapp_number,
                         templateName,
                         product.image,
-                        [businessName, product.product_name, product.price.toString()]
+                        [businessName, product.product_name, product.price.toString()],
+                        languageCode
                     );
                 } else {
                     // Send text-only template message
@@ -217,7 +219,8 @@ export async function broadcastProduct(productId: number) {
                                     { type: 'text', text: product.price.toString() }
                                 ]
                             }
-                        ]
+                        ],
+                        languageCode
                     );
                 }
 

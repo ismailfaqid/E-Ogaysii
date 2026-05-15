@@ -29,14 +29,14 @@ export class WhatsAppService {
   /**
    * Sends a generic template message
    */
-  async sendTemplateMessage(to: string, templateName: string, components: any[] = []) {
+  async sendTemplateMessage(to: string, templateName: string, components: any[] = [], languageCode: string = 'en_US') {
     const payload = {
       messaging_product: 'whatsapp',
       to: this.formatPhoneNumber(to),
       type: 'template',
       template: {
         name: templateName,
-        language: { code: 'en_US' }, // Adjust as needed
+        language: { code: languageCode },
         components
       }
     };
@@ -47,7 +47,7 @@ export class WhatsAppService {
   /**
    * Sends an image-based template message
    */
-  async sendImageTemplateMessage(to: string, templateName: string, imageUrl: string, bodyTextParams: string[] = []) {
+  async sendImageTemplateMessage(to: string, templateName: string, imageUrl: string, bodyTextParams: string[] = [], languageCode: string = 'en_US') {
     const components: any[] = [
       {
         type: 'header',
@@ -67,7 +67,7 @@ export class WhatsAppService {
       });
     }
 
-    return this.sendTemplateMessage(to, templateName, components);
+    return this.sendTemplateMessage(to, templateName, components, languageCode);
   }
 
   /**
