@@ -86,8 +86,8 @@ export default async function AdminBroadcastsPage() {
                                             {b.status}
                                         </span>
                                         {b.recipients.some((r: any) => r.status === 'failed') && (
-                                            <div style={{ color: '#EF4444', fontSize: '0.7rem', marginTop: '0.25rem' }}>
-                                                {b.recipients.filter((r: any) => r.status === 'failed').length} Failed
+                                            <div style={{ color: '#EF4444', fontSize: '0.75rem', marginTop: '0.5rem', background: '#FEF2F2', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid #FEE2E2' }}>
+                                                <strong>Error:</strong> {b.recipients.find((r: any) => r.status === 'failed')?.errorMessage || 'Unknown error'}
                                             </div>
                                         )}
                                     </td>
