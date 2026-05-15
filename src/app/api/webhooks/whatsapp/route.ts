@@ -12,12 +12,19 @@ export async function GET(req: Request) {
   const token = searchParams.get('hub.verify_token');
   const challenge = searchParams.get('hub.challenge');
 
-  if (mode === 'subscribe' && token === process.env.WHATSAPP_VERIFY_TOKEN) {
-    console.log('[WhatsApp Webhook] Verification successful');
-    return new Response(challenge, { status: 200 });
+  if (mode === 'subscribe' && token) {
+    // Check if the token exists in our database
+    const settings = await prisma.whatsAppSettings.findFirst({
+      where: { whatsapp_verify_token: token }
+    });
+
+    if (settings) {
+      console.log(`[WhatsApp Webhook] Verification successful for token: ${token}`);
+      return new Response(challenge, { status: 200 });
+    }
   }
 
-  console.warn('[WhatsApp Webhook] Verification failed: token mismatch');
+  console.warn('[WhatsApp Webhook] Verification failed: token mismatch or missing');
   return new Response('Forbidden', { status: 403 });
 }
 
