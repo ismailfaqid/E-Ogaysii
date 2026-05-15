@@ -74,30 +74,36 @@ export async function createProduct(prevState: any, formData: FormData) {
     }
 
     try {
+        console.log(`[Product] Creating product: ${name} for ${email}`);
+        
         const product = await prisma.product.create({
             data: {
-                product_name: name,
+                product_name: name || "Untitled Product",
                 price: parseFloat(price) || 0,
                 description: description || "",
                 image: imageUrl,
                 status: "Draft",
                 business_email: email
             }
-        })
+        });
 
-        // Audit log
-        await prisma.auditLog.create({
-            data: {
-                action: 'CREATE_PRODUCT',
-                userEmail: email,
-                details: `Created product: ${name}`
-            }
-        })
+        // Audit log (safe catch so it doesn't break product creation)
+        try {
+            await prisma.auditLog.create({
+                data: {
+                    action: 'CREATE_PRODUCT',
+                    userEmail: email,
+                    details: `Created product: ${name}`
+                }
+            });
+        } catch (auditError) {
+            console.warn("[Product] Audit log failed, but product was created:", auditError);
+        }
 
-        return { success: true, productId: product.id }
-    } catch (e) {
-        console.error(e)
-        return { success: false, message: 'Failed to create product' }
+        return { success: true, productId: product.id };
+    } catch (e: any) {
+        console.error("[Product] Creation failed:", e.message || e);
+        return { success: false, message: e.message || 'Failed to create product' };
     }
 }
 
