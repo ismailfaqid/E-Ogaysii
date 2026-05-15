@@ -138,6 +138,8 @@ export async function updateProductClients(productId: number, clientIds: number[
     }
 }
 
+import { decrypt } from '@/lib/security'
+
 export async function broadcastProduct(productId: number) {
     try {
         const product = await prisma.product.findUnique({
@@ -147,6 +149,21 @@ export async function broadcastProduct(productId: number) {
 
         if (!product) return { success: false, message: "Product not found" }
         if (product.selected_clients.length === 0) return { success: false, message: "No clients selected" }
+
+        // Fetch business WhatsApp settings
+        const settings = await prisma.whatsAppSettings.findUnique({
+            where: { business_email: product.business_email }
+        })
+
+        if (!settings || !settings.whatsapp_access_token || !settings.whatsapp_phone_number_id) {
+            return { success: false, message: "WhatsApp API credentials are not configured" }
+        }
+
+        const decryptedToken = decrypt(settings.whatsapp_access_token)
+        if (!decryptedToken) return { success: false, message: "Failed to decrypt WhatsApp token" }
+
+        // Set dynamic credentials for this broadcast session
+        whatsappService.setCredentials(decryptedToken, settings.whatsapp_phone_number_id)
 
         // 1. Create the broadcast record with 'queued' status
         const broadcast = await prisma.broadcast.create({
@@ -163,8 +180,12 @@ export async function broadcastProduct(productId: number) {
         // 2. Queue broadcasts sequentially
         for (const client of product.selected_clients) {
             try {
-                // Approved Meta message template: product_notification
-                const templateName = "product_notification"; 
+                // Approved Meta message template: product_notification (or whatever the business registered)
+                const registeredTemplate = await prisma.whatsAppTemplate.findFirst({
+                    where: { business_email: product.business_email }
+                });
+
+                const templateName = registeredTemplate?.name || "hello_world"; 
                 
                 let response;
                 if (product.image && product.image.startsWith('http')) {

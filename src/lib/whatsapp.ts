@@ -12,11 +12,17 @@ export class WhatsAppService {
   private apiVersion: string = 'v21.0';
 
   constructor() {
-    this.accessToken = process.env.WHATSAPP_ACCESS_TOKEN || '';
-    this.phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID || '';
+    this.accessToken = '';
+    this.phoneNumberId = '';
+  }
+
+  setCredentials(accessToken: string, phoneNumberId: string) {
+    this.accessToken = accessToken;
+    this.phoneNumberId = phoneNumberId;
   }
 
   private get apiUrl() {
+    if (!this.phoneNumberId) throw new Error('Phone Number ID not set');
     return `https://graph.facebook.com/${this.apiVersion}/${this.phoneNumberId}/messages`;
   }
 
