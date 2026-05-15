@@ -84,7 +84,7 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
                 <div className={styles.actionSection}>
                     <BroadcastButton
                         productId={product.id}
-                        disabled={clientCount === 0 || product.status !== 'Draft'}
+                        disabled={clientCount === 0}
                         status={product.status}
                     />
                 </div>

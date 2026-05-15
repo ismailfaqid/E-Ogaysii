@@ -19,10 +19,6 @@ export default function BroadcastButton({ productId, disabled, status }: { produ
         setLoading(false)
     }
 
-    if (status === 'Sent') {
-        return <button className="btn" disabled style={{ background: '#D1FAE5', color: '#059669', cursor: 'default' }}>Broadcast Sent</button>
-    }
-
     return (
         <button
             className="btn btn-primary"
