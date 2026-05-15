@@ -83,3 +83,9 @@ export async function createClient(prevState: any, formData: FormData) {
         return { message: 'Failed to create client' }
     }
 }
+
+function validateWhatsAppNumber(phone: string) {
+    // Basic validation: 10 to 15 digits
+    const regex = /^\d{10,15}$/
+    return regex.test(phone.replace(/\D/g, ''))
+}
