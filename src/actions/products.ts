@@ -196,33 +196,24 @@ export async function broadcastProduct(productId: number) {
                 const languageCode = registeredTemplate?.language || "en_US";
                 
                 console.log(`[Broadcast Debug] Sending Template: "${templateName}" in Language: "${languageCode}" to: ${client.whatsapp_number}`);
-                if (product.image && product.image.startsWith('http')) {
-                    // Send image-based template message
-                    response = await whatsappService.sendImageTemplateMessage(
-                        client.whatsapp_number,
-                        templateName,
-                        product.image,
-                        [businessName, product.product_name, product.price.toString()],
-                        languageCode
-                    );
-                } else {
-                    // Send text-only template message
-                    response = await whatsappService.sendTemplateMessage(
-                        client.whatsapp_number,
-                        templateName,
-                        [
-                            {
-                                type: 'body',
-                                parameters: [
-                                    { type: 'text', text: businessName },
-                                    { type: 'text', text: product.product_name },
-                                    { type: 'text', text: product.price.toString() }
-                                ]
-                            }
-                        ],
-                        languageCode
-                    );
-                }
+
+                // Send generic template message with body parameters
+                // This matches the "No Header" template the user created.
+                response = await whatsappService.sendTemplateMessage(
+                    client.whatsapp_number,
+                    templateName,
+                    [
+                        {
+                            type: 'body',
+                            parameters: [
+                                { type: 'text', text: businessName },
+                                { type: 'text', text: product.product_name },
+                                { type: 'text', text: product.price.toString() }
+                            ]
+                        }
+                    ],
+                    languageCode
+                );
 
                 const messageId = response.messages[0].id;
 
