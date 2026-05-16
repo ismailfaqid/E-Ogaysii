@@ -195,7 +195,7 @@ export async function broadcastProduct(productId: number) {
                 const templateName = registeredTemplate?.name || "hello_world"; 
                 const languageCode = registeredTemplate?.language || "en_US";
                 
-                let response;
+                console.log(`[Broadcast Debug] Sending Template: "${templateName}" in Language: "${languageCode}" to: ${client.whatsapp_number}`);
                 if (product.image && product.image.startsWith('http')) {
                     // Send image-based template message
                     response = await whatsappService.sendImageTemplateMessage(
