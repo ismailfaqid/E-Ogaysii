@@ -59,12 +59,15 @@ export default function TemplatesPage() {
                                 <label>Template Name</label>
                                 <input type="text" name="name" className="form-input" placeholder="e.g. product_alert" required />
                             </div>
-                            <div className="form-group" style={{ margin: 0 }}>
+                             <div className="form-group" style={{ margin: 0 }}>
                                 <label>Language</label>
                                 <select name="language" className="form-input">
-                                    <option value="en_US">English (US)</option>
-                                    <option value="en_GB">English (UK)</option>
-                                    <option value="so_SO">Somali</option>
+                                    <option value="en">English (en)</option>
+                                    <option value="so">Somali (so)</option>
+                                    <option value="en_US">English (US) (en_US)</option>
+                                    <option value="en_GB">English (UK) (en_GB)</option>
+                                    <option value="so_SO">Somali (Somalia) (so_SO)</option>
+                                    <option value="ar">Arabic (ar)</option>
                                 </select>
                             </div>
                             <div className="form-group" style={{ margin: 0 }}>
@@ -106,7 +109,7 @@ export default function TemplatesPage() {
                 <div className="glass-panel" style={{ marginTop: '3rem', padding: '1.5rem', borderRadius: 'var(--radius-lg)', background: 'var(--color-primary-light)', border: '1px solid var(--color-primary)' }}>
                     <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--color-primary-dark)' }}>💡 Pro Tip: Dynamic Variables</h3>
                     <p style={{ fontSize: '0.85rem', marginTop: '0.5rem', color: 'var(--color-primary-dark)', opacity: 0.8 }}>
-                        When using templates in broadcasts, the system automatically maps <strong>Product Name</strong> and <strong>Price</strong> to your template variables <code>{"{{1}}"}</code> and <code>{"{{2}}"}</code>.
+                        The system automatically maps <strong>Business Name</strong>, <strong>Product Name</strong>, and <strong>Price</strong> to your template variables in that order.
                     </p>
                 </div>
             </div>
