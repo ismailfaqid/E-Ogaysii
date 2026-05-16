@@ -228,14 +228,14 @@ export async function broadcastProduct(productId: number) {
                 });
 
             } catch (error: any) {
-                console.error(`[Broadcast] Failed to send to ${client.whatsapp_number}:`, error.message);
+                console.error(`[Broadcast Error] Failed for client ${client.client_name}:`, error);
                 
                 await prisma.broadcastRecipient.create({
                     data: {
                         broadcastId: broadcast.id,
                         clientId: client.id,
                         status: "failed",
-                        errorMessage: error.message
+                        errorMessage: error.message || "Unknown Meta API Error"
                     }
                 });
             }
