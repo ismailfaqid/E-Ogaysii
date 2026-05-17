@@ -197,19 +197,34 @@ export async function broadcastProduct(productId: number) {
                 
                 console.log(`[Broadcast Debug] Sending Template: "${templateName}" in Language: "${languageCode}" to: ${client.whatsapp_number}`);
 
+                // Determine if we should send named or positional parameters.
+                // If it is our 'product_announcement' template, we must send named parameters:
+                // business_name, product_name, price
+                let bodyParameters: any[] = [];
+                if (templateName === 'product_announcement') {
+                    bodyParameters = [
+                        { type: 'text', parameter_name: 'business_name', text: businessName },
+                        { type: 'text', parameter_name: 'product_name', text: product.product_name },
+                        { type: 'text', parameter_name: 'price', text: product.price.toString() }
+                    ];
+                } else {
+                    // Default positional parameters
+                    bodyParameters = [
+                        { type: 'text', text: businessName },
+                        { type: 'text', text: product.product_name },
+                        { type: 'text', text: product.price.toString() }
+                    ];
+                }
+
                 // Send generic template message with body parameters
                 // This matches the "No Header" template the user created.
-                response = await whatsappService.sendTemplateMessage(
+                const response = await whatsappService.sendTemplateMessage(
                     client.whatsapp_number,
                     templateName,
                     [
                         {
                             type: 'body',
-                            parameters: [
-                                { type: 'text', text: businessName },
-                                { type: 'text', text: product.product_name },
-                                { type: 'text', text: product.price.toString() }
-                            ]
+                            parameters: bodyParameters
                         }
                     ],
                     languageCode
