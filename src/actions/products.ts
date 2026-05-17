@@ -199,20 +199,47 @@ export async function broadcastProduct(productId: number) {
 
                 // Determine if we should send named or positional parameters.
                 // If it is our 'product_announcement' template, we must send named parameters:
-                // business_name, product_name, price
-                let bodyParameters: any[] = [];
+                // business_name, product_name, price AND include an IMAGE header!
+                let componentsPayload: any[] = [];
                 if (templateName === 'product_announcement') {
-                    bodyParameters = [
-                        { type: 'text', parameter_name: 'business_name', text: businessName },
-                        { type: 'text', parameter_name: 'product_name', text: product.product_name },
-                        { type: 'text', parameter_name: 'price', text: product.price.toString() }
+                    // Default placeholder premium product image if product doesn't have public url
+                    let headerImageUrl = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500";
+                    if (product.image && product.image.startsWith('http')) {
+                        headerImageUrl = product.image;
+                    }
+
+                    componentsPayload = [
+                        {
+                            type: 'header',
+                            parameters: [
+                                {
+                                    type: 'image',
+                                    image: {
+                                        link: headerImageUrl
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            type: 'body',
+                            parameters: [
+                                { type: 'text', parameter_name: 'business_name', text: businessName },
+                                { type: 'text', parameter_name: 'product_name', text: product.product_name },
+                                { type: 'text', parameter_name: 'price', text: product.price.toString() }
+                            ]
+                        }
                     ];
                 } else {
                     // Default positional parameters
-                    bodyParameters = [
-                        { type: 'text', text: businessName },
-                        { type: 'text', text: product.product_name },
-                        { type: 'text', text: product.price.toString() }
+                    componentsPayload = [
+                        {
+                            type: 'body',
+                            parameters: [
+                                { type: 'text', text: businessName },
+                                { type: 'text', text: product.product_name },
+                                { type: 'text', text: product.price.toString() }
+                            ]
+                        }
                     ];
                 }
 
@@ -221,12 +248,7 @@ export async function broadcastProduct(productId: number) {
                 const response = await whatsappService.sendTemplateMessage(
                     client.whatsapp_number,
                     templateName,
-                    [
-                        {
-                            type: 'body',
-                            parameters: bodyParameters
-                        }
-                    ],
+                    componentsPayload,
                     languageCode
                 );
 
