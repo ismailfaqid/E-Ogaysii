@@ -124,7 +124,7 @@ export default async function Home() {
           <div className={styles.dotSeparator}></div>
           <Link href="/privacy" style={{ textDecoration: 'none', color: 'inherit' }}>Privacy Policy</Link>
           <div className={styles.dotSeparator}></div>
-          <span>Terms of Service</span>
+          <Link href="/terms" style={{ textDecoration: 'none', color: 'inherit' }}>Terms of Service</Link>
         </div>
         <p className={styles.footerNote}>
           © 2026 E-Ogaysii Technology. All rights reserved.
