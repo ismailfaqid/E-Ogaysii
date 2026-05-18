@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
                     </p>
 
                     <p>
-                        Welcome to <strong>E-Ogaysii</strong>. We are committed to protecting your personal data and respecting your privacy. This Privacy Policy explains how <strong>Deegaan Energy Solutions</strong> ("we", "us", or "our") collects, uses, discloses, and safeguards your information when you use our WhatsApp notification platform and services.
+                        Welcome to <strong>E-Ogaysii</strong>. We are committed to protecting your personal data and respecting your privacy. This Privacy Policy explains how <strong>E-Ogaysii Technology</strong> ("we", "us", or "our") collects, uses, discloses, and safeguards your information when you use our WhatsApp notification platform and services.
                     </p>
 
                     <h2 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '2rem 0 1rem', color: '#111827' }}>
@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
                         <div className={styles.contactGrid}>
                             <div className={styles.contactItem}>
                                 <h4>Legal Entity</h4>
-                                <p className={styles.legalName}>Deegaan Energy Solutions</p>
+                                <p className={styles.legalName}>E-Ogaysii Technology</p>
                             </div>
                             <div className={styles.contactItem}>
                                 <h4>Email</h4>
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
                             </div>
                             <div className={styles.contactItem}>
                                 <h4>Phone</h4>
-                                <p>+252615704916</p>
+                                <p>+252610667835</p>
                             </div>
                             <div className={styles.contactItem}>
                                 <h4>Address</h4>
@@ -84,7 +84,7 @@ export default function PrivacyPolicyPage() {
             </main>
 
             <footer className={styles.footer}>
-                <p>© 2026 Deegaan Energy Solutions. All rights reserved.</p>
+                <p>© 2026 E-Ogaysii Technology. All rights reserved.</p>
             </footer>
         </div>
     )

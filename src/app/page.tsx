@@ -89,20 +89,17 @@ export default async function Home() {
         <h2 className={styles.aboutTitle}>About the Company</h2>
         <div className={styles.aboutContent}>
           <p>
-            <strong className={styles.legalName}>Deegaan Energy Solutions</strong> is a legally registered company providing electrical installation, solar energy systems, maintenance services, and supply of electrical and renewable energy equipment.
+            <strong className={styles.legalName}>E-Ogaysii Technology</strong> is a legally registered company providing marketing solutions, WhatsApp customer notification systems, and web and software development specifically tailored for small and medium businesses.
           </p>
           <p>
-            The company also delivers digital services including marketing solutions, WhatsApp customer notification systems, and web and software development for small and medium businesses.
-          </p>
-          <p>
-            E-Ogaysii is a product operated and managed by <strong className={styles.legalName}>Deegaan Energy Solutions</strong>.
+            E-Ogaysii is a product operated and managed by <strong className={styles.legalName}>E-Ogaysii Technology</strong>.
           </p>
 
           <div className={styles.contactBlock}>
             <h3 className={styles.contactTitle}>Contact Information</h3>
             <div className={styles.contactItem}>
               <span className={styles.contactLabel}>Business:</span>
-              <span className={styles.legalName}>Deegaan Energy Solutions</span>
+              <span className={styles.legalName}>E-Ogaysii Technology</span>
             </div>
             <div className={styles.contactItem}>
               <span className={styles.contactLabel}>Email:</span>
@@ -110,7 +107,7 @@ export default async function Home() {
             </div>
             <div className={styles.contactItem}>
               <span className={styles.contactLabel}>Phone:</span>
-              <span>+252615704916</span>
+              <span>+252610667835</span>
             </div>
             <div className={styles.contactItem}>
               <span className={styles.contactLabel}>Address:</span>
@@ -125,12 +122,12 @@ export default async function Home() {
         <div className={styles.footerLinks}>
           <Link href="/about" style={{ textDecoration: 'none', color: 'inherit' }}>About</Link>
           <div className={styles.dotSeparator}></div>
-          <span>Privacy Policy</span>
+          <Link href="/privacy" style={{ textDecoration: 'none', color: 'inherit' }}>Privacy Policy</Link>
           <div className={styles.dotSeparator}></div>
           <span>Terms of Service</span>
         </div>
         <p className={styles.footerNote}>
-          © 2026 Deegaan Energy Solutions. All rights reserved.
+          © 2026 E-Ogaysii Technology. All rights reserved.
         </p>
         <div className={styles.homeIndicator}></div>
       </footer>

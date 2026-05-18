@@ -37,7 +37,7 @@ export default function RootLayout({
             color: '#6B7280',
             fontSize: '0.875rem'
           }}>
-            © 2026 Deegaan Energy Solutions. All rights reserved.
+            © 2026 E-Ogaysii Technology. All rights reserved.
           </footer>
         </Providers>
       </body>

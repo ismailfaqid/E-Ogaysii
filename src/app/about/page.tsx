@@ -13,15 +13,11 @@ export default function AboutPage() {
 
                 <div className={styles.content}>
                     <p>
-                        <strong className={styles.legalName}>Deegaan Energy Solutions</strong> is a legally registered company providing electrical installation, solar energy systems, maintenance services, and supply of electrical and renewable energy equipment.
+                        <strong className={styles.legalName}>E-Ogaysii Technology</strong> is a legally registered company providing marketing solutions, WhatsApp customer notification systems, and bespoke web and software development specifically tailored for small and medium businesses.
                     </p>
 
                     <p>
-                        Beyond energy solutions, the company delivers a comprehensive suite of digital services including marketing solutions, WhatsApp customer notification systems, and bespoke web and software development specifically tailored for small and medium businesses.
-                    </p>
-
-                    <p>
-                        <strong className={styles.legalName}>E-Ogaysii</strong> is a flagship product operated and managed by Deegaan Energy Solutions, designed to bridge the communication gap between businesses and their clients through seamless WhatsApp integration.
+                        <strong className={styles.legalName}>E-Ogaysii</strong> is a flagship product operated and managed by E-Ogaysii Technology, designed to bridge the communication gap between businesses and their clients through seamless WhatsApp integration.
                     </p>
 
                     <section className={styles.contactSection}>
@@ -29,7 +25,7 @@ export default function AboutPage() {
                         <div className={styles.contactGrid}>
                             <div className={styles.contactItem}>
                                 <h4>Legal Business Name</h4>
-                                <p className={styles.legalName}>Deegaan Energy Solutions</p>
+                                <p className={styles.legalName}>E-Ogaysii Technology</p>
                             </div>
                             <div className={styles.contactItem}>
                                 <h4>Email</h4>
@@ -37,7 +33,7 @@ export default function AboutPage() {
                             </div>
                             <div className={styles.contactItem}>
                                 <h4>Phone</h4>
-                                <p>+252615704916</p>
+                                <p>+252610667835</p>
                             </div>
                             <div className={styles.contactItem}>
                                 <h4>Address</h4>
@@ -49,7 +45,7 @@ export default function AboutPage() {
             </main>
 
             <footer className={styles.footer}>
-                <p>© 2026 Deegaan Energy Solutions. All rights reserved.</p>
+                <p>© 2026 E-Ogaysii Technology. All rights reserved.</p>
             </footer>
         </div>
     )
